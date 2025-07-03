@@ -1,0 +1,12 @@
+{
+  "resourceName": "dynamo402d28cb",
+  "tableName": "dynamo402d28cb",
+  "partitionKey": {
+    "fieldName": "user",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": [
+    "projectf4c40734"
+  ]
+}

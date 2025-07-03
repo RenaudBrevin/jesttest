@@ -1,0 +1,44 @@
+{
+  "function": {
+    "projectf4c40734": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "dynamo402d28cb"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_projectf4c40734_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "projectf4c40734"
+        }
+      ]
+    },
+    "AMPLIFY_function_projectf4c40734_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "projectf4c40734"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "dynamo402d28cb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    }
+  }
+}

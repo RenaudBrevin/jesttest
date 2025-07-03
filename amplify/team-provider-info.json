@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-project-dev-eb20e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::147997146851:role/amplify-project-dev-eb20e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::147997146851:role/amplify-project-dev-eb20e-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-project-dev-eb20e-deployment",
+      "UnauthRoleName": "amplify-project-dev-eb20e-unauthRole",
+      "StackName": "amplify-project-dev-eb20e",
+      "StackId": "arn:aws:cloudformation:eu-west-1:147997146851:stack/amplify-project-dev-eb20e/b5005330-5746-11f0-82f2-06dcd025bccd",
+      "AmplifyAppId": "dyyou5pven038"
+    },
+    "categories": {
+      "function": {
+        "projectf4c40734": {
+          "deploymentBucketName": "amplify-project-dev-eb20e-deployment",
+          "s3Key": "amplify-builds/projectf4c40734-4f744963424f4b6e644f-build.zip"
+        }
+      },
+      "storage": {
+        "dynamo402d28cb": {}
+      }
+    }
+  }
+}
