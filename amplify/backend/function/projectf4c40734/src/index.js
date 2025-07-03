@@ -12,134 +12,91 @@ function generateUserId() {
 }
 
 async function add_user(userData) {
-    try {
-        if (!userData || !userData.name || !userData.email) {
-            throw new Error('Name and email are required');
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(userData.email)) {
-            throw new Error('Invalid email format');
-        }
-
-        const existingUser = await get_user_by_email(userData.email);
-        if (existingUser) {
-            throw new Error('User with this email already exists');
-        }
-
-        const user = {
-            id: generateUserId(),
-            name: userData.name.trim(),
-            email: userData.email.toLowerCase().trim(),
-            phone: userData.phone?.trim() || null,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        };
-
-        const command = new PutCommand({
-            TableName: TABLE_NAME,
-            Item: user,
-            ConditionExpression: 'attribute_not_exists(id)'
-        });
-
-        await dynamoDb.send(command);
-
-        console.log('User created successfully:', user.id);
-        return user;
-
-    } catch (error) {
-        console.error('Error adding user:', error);
-        throw error;
+    if (!userData || !userData.name || !userData.email) {
+        throw new Error('Name and email are required');
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userData.email)) {
+        throw new Error('Invalid email format');
+    }
+
+    const existingUser = await get_user_by_email(userData.email);
+    if (existingUser) {
+        throw new Error('User with this email already exists');
+    }
+    const user = {
+        id: generateUserId(),
+        name: userData.name.trim(),
+        email: userData.email.toLowerCase().trim(),
+        phone: userData.phone?.trim() || null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+
+    const command = new PutCommand({
+        TableName: TABLE_NAME,
+        Item: user,
+        ConditionExpression: 'attribute_not_exists(id)'
+    });
+
+    await dynamoDb.send(command);
+    return user;
 }
 
 async function get_user(userId) {
-    try {
-        if (!userId) {
-            throw new Error('User ID is required');
-        }
-
-        const command = new GetCommand({
-            TableName: TABLE_NAME,
-            Key: { id: userId }
-        });
-
-        const result = await dynamoDb.send(command);
-        
-        if (!result.Item) {
-            console.log('User not found:', userId);
-            return null;
-        }
-
-        console.log('User found:', result.Item.id);
-        return result.Item;
-
-    } catch (error) {
-        console.error('Error getting user:', error);
-        throw error;
+    if (!userId) {
+        throw new Error('User ID is required');
     }
+
+    const command = new GetCommand({
+        TableName: TABLE_NAME,
+        Key: { id: userId }
+    });
+
+    const result = await dynamoDb.send(command);
+
+    if (!result.Item) {
+        return null;
+    }
+
+    return result.Item;
 }
 
 async function get_user_by_email(email) {
-    try {
-        if (!email) {
-            return null;
-        }
-
-        const command = new GetCommand({
-            TableName: TABLE_NAME,
-            Key: { email: email.toLowerCase().trim() }
-        });
-
-        const result = await dynamoDb.send(command);
-        return result.Item || null;
-
-    } catch (error) {
-        console.error('Error getting user by email:', error);
+    if (!email) {
         return null;
     }
+
+    const command = new GetCommand({
+        TableName: TABLE_NAME,
+        Key: { email: email.toLowerCase().trim() }
+    });
+
+    const result = await dynamoDb.send(command);
+    return result.Item || null;
 }
 
 exports.handler = async (event, context) => {
-    try {
-        console.log('Lambda event:', JSON.stringify(event, null, 2));
+    const { action, data, userId } = event;
 
-        const { action, data, userId } = event;
+    let response;
 
-        let response;
-
-        switch (action) {
-            case 'add_user':
-                response = await add_user(data);
-                break;
-            
-            case 'get_user':
-                response = await get_user(userId);
-                break;
-            
-            default:
-                throw new Error(`Unknown action: ${action}`);
-        }
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                success: true,
-                data: response
-            })
-        };
-
-    } catch (error) {
-        console.error('Lambda error:', error);
-        
-        return {
-            statusCode: 400,
-            body: JSON.stringify({
-                success: false,
-                error: error.message
-            })
-        };
+    if (action === 'add_user') {
+        response = await add_user(data);
+    } else if (action === 'get_user') {
+        response = await get_user(userId);
+    } else {
+        throw new Error(`Unknown action: ${action}`);
     }
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({
+            success: true,
+            data: response
+        })
+    };
 };
 
 module.exports = {
