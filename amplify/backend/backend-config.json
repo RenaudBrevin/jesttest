@@ -1,5 +1,19 @@
 {
   "api": {
+    "api049a0057": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "projectf4c40734"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "project": {
       "dependsOn": [],
       "output": {

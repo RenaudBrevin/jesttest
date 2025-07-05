@@ -15,14 +15,15 @@
       "function": {
         "projectf4c40734": {
           "deploymentBucketName": "amplify-project-dev-eb20e-deployment",
-          "s3Key": "amplify-builds/projectf4c40734-46326f61484a74527879-build.zip"
+          "s3Key": "amplify-builds/projectf4c40734-713046424532327a6569-build.zip"
         }
       },
       "storage": {
         "dynamo402d28cb": {}
       },
       "api": {
-        "project": {}
+        "project": {},
+        "api049a0057": {}
       }
     }
   }
