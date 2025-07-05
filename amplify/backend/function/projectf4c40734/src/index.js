@@ -2,7 +2,8 @@ const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, PutCommand, GetCommand } = require("@aws-sdk/lib-dynamodb");
 const crypto = require('crypto');
 
-const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'ue-west-1' });
+// Correction de la région
+const client = new DynamoDBClient({ region: process.env.AWS_REGION || 'eu-west-1' });
 const dynamoDb = DynamoDBDocumentClient.from(client);
 
 const TABLE_NAME = process.env.STORAGE_USERTABLE_NAME || 'UserTable';
@@ -25,6 +26,7 @@ async function add_user(userData) {
     if (existingUser) {
         throw new Error('User with this email already exists');
     }
+
     const user = {
         id: generateUserId(),
         name: userData.name.trim(),
@@ -78,25 +80,88 @@ async function get_user_by_email(email) {
 }
 
 exports.handler = async (event, context) => {
-    const { action, data, userId } = event;
+    try {
+        console.log('Event received:', JSON.stringify(event, null, 2));
 
-    let response;
+        // Ajout des headers CORS
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+        };
 
-    if (action === 'add_user') {
-        response = await add_user(data);
-    } else if (action === 'get_user') {
-        response = await get_user(userId);
-    } else {
-        throw new Error(`Unknown action: ${action}`);
+        // Gestion des requêtes OPTIONS pour CORS
+        if (event.httpMethod === 'OPTIONS') {
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ message: 'CORS preflight' })
+            };
+        }
+
+        // Parse du body si c'est une requête HTTP
+        let requestData;
+        if (event.body) {
+            requestData = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+        } else {
+            requestData = event;
+        }
+
+        const { action, data, userId } = requestData;
+
+        if (!action) {
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({
+                    success: false,
+                    error: 'Action is required'
+                })
+            };
+        }
+
+        let response;
+
+        if (action === 'add_user') {
+            response = await add_user(data);
+        } else if (action === 'get_user') {
+            response = await get_user(userId);
+        } else {
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({
+                    success: false,
+                    error: `Unknown action: ${action}`
+                })
+            };
+        }
+
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+                success: true,
+                data: response
+            })
+        };
+
+    } catch (error) {
+        console.error('Error:', error);
+
+        return {
+            statusCode: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                success: false,
+                error: error.message || 'Internal server error'
+            })
+        };
     }
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            success: true,
-            data: response
-        })
-    };
 };
 
 module.exports = {
