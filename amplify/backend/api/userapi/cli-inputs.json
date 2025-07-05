@@ -1,8 +1,8 @@
 {
   "version": 1,
   "paths": {
-    "/items": {
-      "name": "/items",
+    "/users": {
+      "name": "/users",
       "lambdaFunction": "projectf4c40734",
       "permissions": {
         "setting": "open"

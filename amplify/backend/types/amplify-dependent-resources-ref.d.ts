@@ -1,14 +1,9 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "api049a0057": {
+    "userapi": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"
-    },
-    "project": {
-      "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string",
-      "GraphQLAPIKeyOutput": "string"
     }
   },
   "function": {

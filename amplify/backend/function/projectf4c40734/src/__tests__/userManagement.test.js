@@ -227,5 +227,34 @@ describe('User Management Lambda Functions', () => {
             expect(body.success).toBe(true);
             expect(body.data).toEqual(mockUser);
         });
+
+        it('should handle unknown action', async () => {
+            const event = {
+                action: 'unknown_action'
+            };
+
+            const result = await handler(event, {});
+
+            expect(result.statusCode).toBe(400);
+            const body = JSON.parse(result.body);
+            expect(body.success).toBe(false);
+            expect(body.error).toBe('Unknown action: unknown_action');
+        });
+
+        it('should handle errors gracefully', async () => {
+            ddbMock.on(GetCommand).rejects(new Error('DynamoDB error'));
+
+            const event = {
+                action: 'get_user',
+                userId: 'test-user-id'
+            };
+
+            const result = await handler(event, {});
+
+            expect(result.statusCode).toBe(400);
+            const body = JSON.parse(result.body);
+            expect(body.success).toBe(false);
+            expect(body.error).toBe('DynamoDB error');
+        });
     });
 });

@@ -1,6 +1,6 @@
 {
   "api": {
-    "api049a0057": {
+    "userapi": {
       "dependsOn": [
         {
           "attributes": [
@@ -13,22 +13,6 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
-    },
-    "project": {
-      "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
-            },
-            "authenticationType": "API_KEY"
-          }
-        }
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "AppSync"
     }
   },
   "function": {
