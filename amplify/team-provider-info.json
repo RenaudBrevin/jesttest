@@ -15,7 +15,7 @@
       "function": {
         "projectf4c40734": {
           "deploymentBucketName": "amplify-project-dev-eb20e-deployment",
-          "s3Key": "amplify-builds/projectf4c40734-504a477356416b595458-build.zip"
+          "s3Key": "amplify-builds/projectf4c40734-574f417a696f6c434264-build.zip"
         }
       },
       "storage": {
