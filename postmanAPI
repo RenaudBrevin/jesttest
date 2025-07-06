@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "559037c7-2474-473f-ab57-5d190951ee89",
+		"name": "API - test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29890779"
+	},
+	"item": [
+		{
+			"name": "https://dur6ns8fs0.execute-api.eu-west-1.amazonaws.com/dev",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"action\": \"add_user\",\r\n    \"data\": {\r\n      \"name\": \"Brevin RENAUD\",\r\n      \"email\": \"renaudbrevin@gmail.com\",\r\n      \"phone\": \"0611688567\"\r\n    }\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://46bfu9nuyf.execute-api.eu-west-1.amazonaws.com/dev/users",
+					"protocol": "https",
+					"host": [
+						"46bfu9nuyf",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST https://dur6ns8fs0.execute-api.eu-west-1.amazonaws.com/dev \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"action\": \"add_user\",\r\n    \"data\": {\r\n      \"name\": \"John Doe\",\r\n      \"email\": \"john@example.com\",\r\n      \"phone\": \"123-456-7890\"\r\n    }\r\n  }'"
+			},
+			"response": []
+		},
+		{
+			"name": "https://dur6ns8fs0.execute-api.eu-west-1.amazonaws.com/dev",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"action\": \"get_user\",\r\n    \"userId\": \"\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://46bfu9nuyf.execute-api.eu-west-1.amazonaws.com/dev/users",
+					"protocol": "https",
+					"host": [
+						"46bfu9nuyf",
+						"execute-api",
+						"eu-west-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST https://dur6ns8fs0.execute-api.eu-west-1.amazonaws.com/dev \\\r\n  -H \"Content-Type: application/json\" \\\r\n  -d '{\r\n    \"action\": \"get_user\",\r\n    \"userId\": \"user_1720181448123_a1b2c3d4\"\r\n  }'"
+			},
+			"response": []
+		}
+	]
+}
